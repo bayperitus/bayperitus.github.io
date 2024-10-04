@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <!-- Meta Bolumu Baslangic -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Kişisel veri tabanı." />
+    <meta name="author" content="pondesivon" />
+    <!-- Meta Bolumu Bitis -->
+    
+    <!-- Title Alani Baslangic -->
+	<title>Windows Kullanıcı Girişlerini Kaydet - Microsoft Excel</title>
+	<!-- Title Alani Bitis -->
+
+    <!-- Favicon Baslangic -->
+    <link rel="icon" type="image/x-icon" href="../doc/favicon.ico" />
+    <!-- Favicon Bitis -->
+
+    <!-- CSS Alani Baslangic -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/prism.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <!-- CSS Alani Bitis -->
+</head>
+<body>
+    <!-- Responsive NavBar Baslangic -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand btn btn-secondary" href="../index.html">Pondesivon</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="../index.html">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../arsiv.html">Arşiv</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../notlar.html">Notlar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../sayfalar.html">Sayfalar</a></li>
+                    <li class="nav-item">
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninBasinaGit();">▲</span>
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninSonunaGit();">▼</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Responsive NavBar Bitis -->
+
+    <!-- Kapsayici Icerik Alani Baslangic -->
+    <div class="container min-vh-100 mb-2">
+
+        <!-- Icerik Ana Satir Baslangic -->
+        <div class="row">
+
+            <!-- Icerik Ana Sutun Baslangic -->
+            <div class="col">
+
+<!-- ################################################## -->
+<!-- Icerik Metin Baslangic -->
+<h1 class="mt-3">Windows Kullanıcı Girişlerini Kaydet - Microsoft Excel</h1><hr class="mt-1 mb-1"><p class="lead">Çalışma kitabı açıldığında, çalışma kitabını açan Microsoft Windows kullanıcısının ismini ve açılış tarihini "Kullanıcı Girişleri" adlı bir sayfaya kaydeder. Sayfa yoksa oluşturduktan sonra kayıt işlemini yapar.</p>
+<!-- bol -->
+<div class="alert alert-dark"><strong>Kod</strong></div>
+<p><pre><code class="language-vb">
+Option Explicit
+
+Sub Auto_Open()
+    KullaniciGirisiKaydet
+End Sub
+
+Sub KullaniciGirisiKaydet()
+    Dim kontrol As Boolean
+    Dim sayfa As Worksheet
+    Dim sonDoluSatir As Long
+    Dim bosSatir As Long
+    
+    '--------------------------------------------------
+    'Eğer yoksa sayfa oluştur, varsa seç.
+    '--------------------------------------------------
+    For Each sayfa In Worksheets
+        If (sayfa.Name &lt;&gt; "Kullanıcı Girişleri") Then
+            kontrol = False
+        Else
+            kontrol = True
+        End If
+    Next
+    
+    If (kontrol = True) Then
+        Sheets.Add
+        ActiveSheet.Name = "Kullanıcı Girişleri"
+        
+        ActiveSheet.Range("A1") = "Kullanıcı"
+        ActiveSheet.Range("B1") = "Giriş Tarihi"
+    Else
+        Worksheets("Kullanıcı Girişleri").Select
+    End If
+    
+    '--------------------------------------------------
+    'Kullanıcı girişini kaydet.
+    '--------------------------------------------------
+    sonDoluSatir = Range("A1048576").End(xlUp).Row
+    bosSatir = sonDoluSatir + 1
+    
+    Range("A" & bosSatir) = Application.UserName
+    Range("B" & bosSatir) = DateTime.Now
+    
+    '--------------------------------------------------
+    'Sütunları yeniden boyutlandır.
+    '--------------------------------------------------
+    Columns("A:B").EntireColumn.AutoFit
+End Sub
+</code></pre></p>
+
+<div class="alert alert-dark"><strong>Kod (Açıklamalı)</strong></div>
+<p><pre><code class="language-vb">
+Option Explicit
+
+'--------------------------------------------------
+'Auto_Open özel yordamıyla çalışma kitabı her
+'açıldığında kullanıcı girişi bilgilerinin
+'kaydedilmesini sağlıyoruz.
+'--------------------------------------------------
+Sub Auto_Open()
+    KullaniciGirisiKaydet
+End Sub
+
+Sub KullaniciGirisiKaydet()
+    '--------------------------------------------------
+    'Kayıt işlemi "Kullanıcı Girişleri" isimli bir
+    'sayfaya yapılacak. Bu sayfanın olup olmadığı
+    'kontrol edildikten sonra elde edilen sonuç
+    'bu değişkene aktarılıyor.
+    Dim kontrol      As Boolean
+    
+    '--------------------------------------------------
+    'Çalışma kitabındaki sayfaların isimlerini
+    'döngü aracılığıyla dinamik olarak kontrol
+    'etmek için değişken kullanılıyor. İlgili
+    'çalışma sayfası, "sayfa" değişkenine
+    'atanıyor, işlemler bu değişken üzerinden
+    'yapılıyor.
+    '--------------------------------------------------
+    Dim sayfa        As Worksheet
+    
+    '--------------------------------------------------
+    '"Kullanıcı Girişleri" sayfasındaki tabloda
+    'son dolu satırı bulduktan sonra elde edilen
+    'sonuç bu değişkene aktarılıyor.
+    '
+    '(Çalışma kitabını açan kullanıcının ismi ve
+    'açılış tarihi olmak üzere iki sütunlu bir
+    'tablo gibi düşünülebilir.)
+    Dim sonDoluSatir As Long
+    
+    '--------------------------------------------------
+    'Son dolu satırı bulduktan sonraki ilk boş satırı
+    'da bu değişkene aktarılan sonuç üzerinden takip
+    'ediyoruz.
+    '--------------------------------------------------
+    Dim bosSatir     As Long
+    
+    '--------------------------------------------------
+    'Eğer yoksa sayfa oluştur, varsa seç.
+    '--------------------------------------------------
+    For Each sayfa In Worksheets
+        If (sayfa.Name &lt;&gt; "Kullanıcı Girişleri") Then
+            kontrol = False
+        Else
+            kontrol = True
+        End If
+    Next
+    
+    '--------------------------------------------------
+    'Eğer kontrol mantıksal değişkenimizin değeri
+    'True ise sayfa yok demektir, o halde istenilen
+    'isimde bir çalışma sayfası oluştur.
+    '--------------------------------------------------
+    If (kontrol = True) Then
+        
+        '--------------------------------------------------
+        'Yeni bir çalışma sayfası oluştur.
+        '--------------------------------------------------
+        Sheets.Add
+        
+        '--------------------------------------------------
+        'Oluşturulan çalışma sayfasına isim ver.
+        '--------------------------------------------------
+        ActiveSheet.Name = "Kullanıcı Girişleri"
+        
+        '--------------------------------------------------
+        'Sütun başlıklarını gir.
+        '--------------------------------------------------
+        ActiveSheet.Range("A1") = "Kullanıcı"
+        ActiveSheet.Range("B1") = "Giriş Tarihi"
+    Else
+        '--------------------------------------------------
+        'Eğer sayfa varsa o sayfayı seç.
+        '--------------------------------------------------
+        Worksheets("Kullanıcı Girişleri").Select
+    End If
+    
+    '--------------------------------------------------
+    'Tabloda A sütunundaki en son dolu satırı bul.
+    'Buradaki durum da şu: A sütunu da B sütunu da
+    'doldurulduğundan dolayı iki sütunun da son dolu
+    'satırı aynı satır değeri oluyor. Aynı işlemi
+    'B sütunu için de yapsak olurdu.
+    '--------------------------------------------------
+    sonDoluSatir = Range("A1048576").End(xlUp).Row
+    
+    '--------------------------------------------------
+    'Eğer son dolu satırdan sonraki ilk satırı seçersek
+    'tablonun sonundaki ilk boş satırı bulmuş oluruz.
+    '--------------------------------------------------
+    bosSatir = sonDoluSatir + 1
+    
+    '--------------------------------------------------
+    'Boş satıra yeni kullanıcı girişi
+    'bilgilerini kaydet.
+    '--------------------------------------------------
+    Range("A" & bosSatir) = Application.UserName
+    Range("B" & bosSatir) = DateTime.Now
+    
+    '--------------------------------------------------
+    'Sütunları yeniden boyutlandır.
+    'Böylelikle olası taşmalar düzeltilmiş olacak
+    've verilerin okunması ile ilgili olası
+    'problemler ortadan kaldırılmış olacak.
+    '--------------------------------------------------
+    Columns("A:B").EntireColumn.AutoFit
+End Sub
+</code></pre></p>
+
+<div class="alert alert-dark"><strong>Etiketler</strong></div><span class='btn btn-light bg-gri'>microsoft excel</span> <span class='btn btn-light bg-gri'>açıklamalı içerik</span> <span class='btn btn-light bg-gri'>microsoft excel vba</span><hr>
+<!-- Icerik Metin Bitis -->
+<!-- ################################################## -->
+
+            </div>
+            <!-- Icerik Ana Sutun Bitis -->
+
+        </div>
+        <!-- Icerik Ana Satir Bitis -->
+
+    </div>
+    <!-- Kapsayici Icerik Alani Bitis -->
+
+    <!-- Responsive NavBar Baslangic -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand btn btn-secondary" href="../index.html">Pondesivon</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="../index.html">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../arsiv.html">Arşiv</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../sayfalar.html">Sayfalar</a></li>
+                    <li class="nav-item">
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninBasinaGit();">▲</span>
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninSonunaGit();">▼</span>
+                    </li>                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Responsive NavBar Bitis -->
+
+    <!-- Javascript Alani Alt Baslangic -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/prism.js"></script>
+    <script src="../js/script.js"></script>
+    <!-- Javascript Alani Alt Bitis -->
+</body>
+</html>

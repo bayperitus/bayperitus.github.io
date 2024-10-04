@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <!-- Meta Bolumu Baslangic -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Kişisel veri tabanı." />
+    <meta name="author" content="pondesivon" />
+    <!-- Meta Bolumu Bitis -->
+    
+    <!-- Title Alani Baslangic -->
+	<title>Seçilen Alanda Bir Metni Başka Bir Metinle Değiştir - Microsoft Excel</title>
+	<!-- Title Alani Bitis -->
+
+    <!-- Favicon Baslangic -->
+    <link rel="icon" type="image/x-icon" href="../doc/favicon.ico" />
+    <!-- Favicon Bitis -->
+
+    <!-- CSS Alani Baslangic -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/prism.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <!-- CSS Alani Bitis -->
+</head>
+<body>
+    <!-- Responsive NavBar Baslangic -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand btn btn-secondary" href="../index.html">Pondesivon</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="../index.html">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../arsiv.html">Arşiv</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../notlar.html">Notlar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../sayfalar.html">Sayfalar</a></li>
+                    <li class="nav-item">
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninBasinaGit();">▲</span>
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninSonunaGit();">▼</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Responsive NavBar Bitis -->
+
+    <!-- Kapsayici Icerik Alani Baslangic -->
+    <div class="container min-vh-100 mb-2">
+
+        <!-- Icerik Ana Satir Baslangic -->
+        <div class="row">
+
+            <!-- Icerik Ana Sutun Baslangic -->
+            <div class="col">
+
+<!-- ################################################## -->
+<!-- Icerik Metin Baslangic -->
+<h1 class="mt-3">Seçilen Alanda Bir Metni Başka Bir Metinle Değiştir - Microsoft Excel</h1><hr class="mt-1 mb-1"><p class="lead">InputBox aracılığıyla değiştirilecek metin ve yerine getirilecek metin bilgileri verildiğinde seçilen alanı kontrol edip değiştirme işlemi yapıyor.</p>
+<!-- bol -->
+<div class="alert alert-dark"><strong>Kod</strong></div>
+<p><pre><code class="language-vb">
+Option Explicit
+
+Sub SecilenAlandaBirMetniBaskaBirMetinleDegistir()
+    Dim i                  As Integer
+    Dim degistirilecek     As String
+    Dim yerine_getirilecek As String
+    Dim firstAddress       As String
+    Dim c                  As Object
+    
+    degistirilecek = _
+        InputBox("Değiştirilecek ifadeyi girin:", "DEĞER GİRİŞİ 1")
+            
+    yerine_getirilecek = _
+        InputBox("Yerine getirilecek ifadeyi girin:", "DEĞER GİRİŞİ 2")
+    
+    
+    With Selection
+        Set c = .Find(degistirilecek, LookIn:=xlValues)
+        If Not c Is Nothing Then
+            firstAddress = c.Address
+            
+            Do
+                c.Value = _
+                    Application.WorksheetFunction.Substitute( _
+                    c.Value, degistirilecek, yerine_getirilecek)
+                            
+                Set c = .FindNext(c)
+            Loop While Not c Is Nothing And c.Address &lt;&gt; firstAddress
+        End If
+    End With
+End Sub
+</code></pre></p>
+
+<div class="alert alert-dark"><strong>Kod (Açıklamalı)</strong></div>
+<p><pre><code class="language-vb">
+Option Explicit
+
+Sub SecilenAlandaBirMetniBaskaBirMetinleDegistir()
+    '--------------------------------------------------
+    'Değişkenler
+    '--------------------------------------------------
+    Dim i                  As Integer
+    Dim degistirilecek     As String
+    Dim yerine_getirilecek As String
+    Dim ilkAdres       As String
+    Dim alan               As Object
+    
+    '--------------------------------------------------
+    'Değiştirilecek metni InputBox ile
+    'al ve değişkene aktar.
+    '--------------------------------------------------
+    degistirilecek = _
+        InputBox("Değiştirilecek ifadeyi girin:", "DEĞER GİRİŞİ 1")
+    
+    '--------------------------------------------------
+    'Yerine getirilecek metni InputBox
+    'ile al ve değişkene aktar.
+    '--------------------------------------------------
+    yerine_getirilecek = _
+        InputBox("Yerine getirilecek ifadeyi girin:", "DEĞER GİRİŞİ 2")
+    
+    '--------------------------------------------------
+    'Seçilen alan üzerinde işlem yap.
+    '--------------------------------------------------
+    With Selection
+        
+        '--------------------------------------------------
+        'Alanların (Range) değerlerinde değiştirilecek
+        'metni içerenleri bul ve alan isimli değişkene ata.
+        '--------------------------------------------------
+        Set alan = .Find(degistirilecek, LookIn:=xlValues)
+        
+        '--------------------------------------------------
+        'Eğer değiştirilecek veriyi içeren
+        'alan bulunduysa işlem yap.
+        '--------------------------------------------------
+        If Not alan Is Nothing Then
+            '--------------------------------------------------
+            'Elenmiş Range içeriğinin
+            'ilk hücresinin adresini al.
+            '--------------------------------------------------
+            ilkAdres = alan.Address
+            
+            '--------------------------------------------------
+            'Döngüye başla.
+            '--------------------------------------------------
+            Do
+            
+                '--------------------------------------------------
+                'Metin değiştirme işlemini yap.
+                '--------------------------------------------------
+                alan.Value = _
+                    Application.WorksheetFunction.Substitute( _
+                    alan.Value, degistirilecek, yerine_getirilecek)
+                            
+                '--------------------------------------------------
+                'Sonraki elenmiş alana geç.
+                'FindNext metodu ile bize verilen alanı
+                'alan isimli değişkene ata.
+                '--------------------------------------------------
+                Set alan = .FindNext(alan)
+                
+                
+            '--------------------------------------------------
+            'Değiştirilecek veiyi içeren alanlar bitene
+            'kadar ve döngüdeki alan bilgisi ilkAdres
+            'değişkenindeki alan bilgisine eşit değilse
+            'döngüye devam et.
+            '--------------------------------------------------
+            Loop While Not alan Is Nothing And alan.Address &lt;&gt; ilkAdres
+        End If
+    End With
+End Sub
+</code></pre></p>
+
+<div class="alert alert-dark"><strong>Etiketler</strong></div><span class='btn btn-light bg-gri'>microsoft excel</span> <span class='btn btn-light bg-gri'>açıklamalı içerik</span> <span class='btn btn-light bg-gri'>microsoft excel vba</span><hr>
+<!-- Icerik Metin Bitis -->
+<!-- ################################################## -->
+
+            </div>
+            <!-- Icerik Ana Sutun Bitis -->
+
+        </div>
+        <!-- Icerik Ana Satir Bitis -->
+
+    </div>
+    <!-- Kapsayici Icerik Alani Bitis -->
+
+    <!-- Responsive NavBar Baslangic -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand btn btn-secondary" href="../index.html">Pondesivon</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="../index.html">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../arsiv.html">Arşiv</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../sayfalar.html">Sayfalar</a></li>
+                    <li class="nav-item">
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninBasinaGit();">▲</span>
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninSonunaGit();">▼</span>
+                    </li>                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Responsive NavBar Bitis -->
+
+    <!-- Javascript Alani Alt Baslangic -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/prism.js"></script>
+    <script src="../js/script.js"></script>
+    <!-- Javascript Alani Alt Bitis -->
+</body>
+</html>

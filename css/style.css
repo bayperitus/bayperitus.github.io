@@ -1,0 +1,46 @@
+body    { overflow-y:scroll }
+
+/* satır  */
+.str { border-bottom:1px solid #ddd; padding:10px }
+
+/* bağlantı  */
+.bgl { text-decoration: none; }
+
+.kenar { border: 3px solid #dc3545; padding: 15px; border-radius: 10px; font-size: 28px }
+
+.bg-e8e8e8 { background-color: #e8e8e8 }
+.bg-ffd43b { background-color: #ffd43b }
+.bg-74c0fc { background-color: #74c0fc }
+.bg-63e6be { background-color: #63e6be }
+.bg-e599f7 { background-color: #e599f7 }
+.bg-b197fc { background-color: #b197fc }
+.bg-ff8787 { background-color: #ff8787 }
+
+.bg-gri {
+    background-color: #ddd;
+}
+
+.bg-acik-gri {
+    background-color: #f0f0f0;
+}
+
+.sosyal { font-size: 16px; text-decoration: none; }
+.tanim { font-size: 30px; }
+.cp { cursor:pointer; }
+
+code {
+  padding-top: 15px;
+  background-color: none;
+  font-size: 100%;
+  color: #e83e8c;
+  word-wrap: break-word;
+}
+
+hr.bolum {
+    border-top: 4px solid #ddd;
+}
+
+pre {
+  margin-top: 0;
+  margin-bottom: 0rem;
+}

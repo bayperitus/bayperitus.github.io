@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <!-- Meta Bolumu Baslangic -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Kişisel veri tabanı." />
+    <meta name="author" content="pondesivon" />
+    <!-- Meta Bolumu Bitis -->
+    
+    <!-- Title Alani Baslangic -->
+	<title>Microsoft Access Tablosu Üzerinde CRUD İşlemi Yap - Microsoft Excel</title>
+	<!-- Title Alani Bitis -->
+
+    <!-- Favicon Baslangic -->
+    <link rel="icon" type="image/x-icon" href="../doc/favicon.ico" />
+    <!-- Favicon Bitis -->
+
+    <!-- CSS Alani Baslangic -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/prism.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <!-- CSS Alani Bitis -->
+</head>
+<body>
+    <!-- Responsive NavBar Baslangic -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand btn btn-secondary" href="../index.html">Pondesivon</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="../index.html">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../arsiv.html">Arşiv</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../notlar.html">Notlar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../sayfalar.html">Sayfalar</a></li>
+                    <li class="nav-item">
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninBasinaGit();">▲</span>
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninSonunaGit();">▼</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Responsive NavBar Bitis -->
+
+    <!-- Kapsayici Icerik Alani Baslangic -->
+    <div class="container min-vh-100 mb-2">
+
+        <!-- Icerik Ana Satir Baslangic -->
+        <div class="row">
+
+            <!-- Icerik Ana Sutun Baslangic -->
+            <div class="col">
+
+<!-- ################################################## -->
+<!-- Icerik Metin Baslangic -->
+<h1 class="mt-3">Microsoft Access Tablosu Üzerinde CRUD İşlemi Yap - Microsoft Excel</h1><hr class="mt-1 mb-1"><p class="lead">Microsoft Access veri tabanına bağlanarak bir tabloda üzerinden veri listeleme, kayıt ekleme, kayıt güncelleme, kayıt silme işlemlerini bir örnek ile gösteren VBA kodu alternatifidir.</p>
+<!-- bol -->
+<div class="alert alert-dark"><strong>Kod</strong></div>
+<p><pre><code class="language-vb">
+Option Explicit
+
+'--------------------------------------------------
+'Bağlantı Değişkeni
+'--------------------------------------------------
+Dim baglanti As ADODB.Connection
+
+'--------------------------------------------------
+'Veri tabanına bağlan.
+'--------------------------------------------------
+Sub Baglan()
+    Set baglanti = New ADODB.Connection
+    baglanti.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" _
+                                & ThisWorkbook.Path & "\OrnekVeriTabani.accdb"
+    baglanti.Open
+    
+    Debug.Print "Bağlantı kuruldu."
+End Sub
+
+'--------------------------------------------------
+'Veri tabanı bağlantısını kes.
+'--------------------------------------------------
+Sub BaglantiyiKes()
+    On Error Resume Next
+    
+    baglanti.Close
+    Debug.Print "Bağlantı kesildi."
+    Set baglanti = Nothing
+    
+    On Error GoTo 0
+End Sub
+
+'--------------------------------------------------
+'Veri listele.
+'--------------------------------------------------
+Sub VeriListele()
+    Dim sorguMetni As String
+    Dim kayitSeti  As ADODB.Recordset
+    Dim oge        As Object
+    Dim alan       As Range
+    
+    Baglan
+    
+    sorguMetni = "SELECT * FROM kisiler"
+    
+    Set kayitSeti = New ADODB.Recordset
+    kayitSeti.Open sorguMetni, baglanti
+    
+    ThisWorkbook.Sheets(1).Range("A1").Select
+
+    For Each oge In kayitSeti.Fields
+        ActiveCell.Value = oge.Name
+        ActiveCell.Offset(0, 1).Select
+    Next
+    
+    Set alan = ThisWorkbook.Sheets(1).Range("A2")
+    alan.CopyFromRecordset kayitSeti
+    
+    Range("A1").CurrentRegion.EntireColumn.AutoFit
+    
+    BaglantiyiKes
+End Sub
+
+'--------------------------------------------------
+'Kayıt ekle.
+'--------------------------------------------------
+Sub KayitEkle()
+    Dim sorguMetni As String
+    
+    Baglan
+    
+    sorguMetni = "INSERT INTO kisiler(ad, soyad, eposta) " _
+                 & "VALUES('Ezgi', 'BCD', 'ezgibcd@gmail.com')"
+                 
+    baglanti.Execute sorguMetni
+    
+    BaglantiyiKes
+End Sub
+
+'--------------------------------------------------
+'Kayıt güncelle.
+'--------------------------------------------------
+Sub KayitGuncelle()
+    Dim sorguMetni As String
+    
+    Baglan
+    
+    sorguMetni = "UPDATE kisiler " _
+                 & "SET soyad='ABCDEF', eposta='fazliabcdef@hotmail.com'" _
+                 & "WHERE id=6"
+                 
+    baglanti.Execute sorguMetni
+    
+    BaglantiyiKes
+End Sub
+
+'--------------------------------------------------
+'Kayıt sil.
+'--------------------------------------------------
+Sub KayitSil()
+    Dim sorguMetni As String
+    
+    Baglan
+    
+    sorguMetni = "DELETE FROM kisiler " _
+                 & "WHERE id=6"
+                 
+    baglanti.Execute sorguMetni
+    
+    BaglantiyiKes
+End Sub
+</code></pre></p>
+
+<div class="alert alert-dark"><strong>Yararlanılan Kaynaklar</strong></div>
+<div class="list-group">
+	<a href="https://codepen.io/arvind00/post/crud-to-ms-access-from-excel-vba#read-records-6" rel="nofollow noopener" target="_blank" class="list-group-item bg-light text-secondary">https://codepen.io/arvind00/post/crud-to-ms-access-from-excel-vba#read-records-6</a>
+</div>
+
+<div class="alert alert-dark"><strong>Etiketler</strong></div><span class='btn btn-light bg-gri'>microsoft excel</span> <span class='btn btn-light bg-gri'>microsoft excel vba</span> <span class='btn btn-light bg-gri'>microsoft excel vba ado işlemleri</span> <span class='btn btn-light bg-gri'>microsoft excel vba crud işlemleri</span> <span class='btn btn-light bg-gri'>microsoft excel vba microsoft access işlemleri</span> <span class='btn btn-light bg-gri'>microsoft excel vba veri tabanı işlemleri</span><hr>
+<!-- Icerik Metin Bitis -->
+<!-- ################################################## -->
+
+            </div>
+            <!-- Icerik Ana Sutun Bitis -->
+
+        </div>
+        <!-- Icerik Ana Satir Bitis -->
+
+    </div>
+    <!-- Kapsayici Icerik Alani Bitis -->
+
+    <!-- Responsive NavBar Baslangic -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand btn btn-secondary" href="../index.html">Pondesivon</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="../index.html">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../arsiv.html">Arşiv</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../sayfalar.html">Sayfalar</a></li>
+                    <li class="nav-item">
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninBasinaGit();">▲</span>
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninSonunaGit();">▼</span>
+                    </li>                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Responsive NavBar Bitis -->
+
+    <!-- Javascript Alani Alt Baslangic -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/prism.js"></script>
+    <script src="../js/script.js"></script>
+    <!-- Javascript Alani Alt Bitis -->
+</body>
+</html>

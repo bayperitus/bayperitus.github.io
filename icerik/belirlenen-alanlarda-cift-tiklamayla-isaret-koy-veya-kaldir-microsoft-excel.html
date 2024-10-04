@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <!-- Meta Bolumu Baslangic -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Kişisel veri tabanı." />
+    <meta name="author" content="pondesivon" />
+    <!-- Meta Bolumu Bitis -->
+    
+    <!-- Title Alani Baslangic -->
+	<title>Belirlenen Alanlarda Çift Tıklamayla İşaret Koy Veya Kaldır - Microsoft Excel</title>
+	<!-- Title Alani Bitis -->
+
+    <!-- Favicon Baslangic -->
+    <link rel="icon" type="image/x-icon" href="../doc/favicon.ico" />
+    <!-- Favicon Bitis -->
+
+    <!-- CSS Alani Baslangic -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/prism.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <!-- CSS Alani Bitis -->
+</head>
+<body>
+    <!-- Responsive NavBar Baslangic -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand btn btn-secondary" href="../index.html">Pondesivon</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="../index.html">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../arsiv.html">Arşiv</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../notlar.html">Notlar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../sayfalar.html">Sayfalar</a></li>
+                    <li class="nav-item">
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninBasinaGit();">▲</span>
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninSonunaGit();">▼</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Responsive NavBar Bitis -->
+
+    <!-- Kapsayici Icerik Alani Baslangic -->
+    <div class="container min-vh-100 mb-2">
+
+        <!-- Icerik Ana Satir Baslangic -->
+        <div class="row">
+
+            <!-- Icerik Ana Sutun Baslangic -->
+            <div class="col">
+
+<!-- ################################################## -->
+<!-- Icerik Metin Baslangic -->
+<h1 class="mt-3">Belirlenen Alanlarda Çift Tıklamayla İşaret Koy Veya Kaldır - Microsoft Excel</h1><hr class="mt-1 mb-1"><p class="lead">Belirlediğimiz alanlar için çift tıklamayla “x” karakteri ekleyebileceğimiz ve yine çift tıklamayla “x” karakterini kaldırabileceğimiz alternatif bir makro kodudur.</p>
+<!-- bol -->
+<div class="alert alert-dark"><strong>Kod</strong></div>
+<p><pre><code class="language-vb">
+Option Explicit
+
+Private Sub Worksheet_BeforeDoubleClick(ByVal Target As Range, Cancel As Boolean)
+    Dim kontrol_alani As Range
+    
+    Set kontrol_alani = Range("B1:B100,D1:D50,F10:F60")
+    
+    If Intersect(Target, kontrol_alani) Is Nothing Then Exit Sub
+        Application.EnableEvents = False
+        Cancel = True
+    If Target.Value = "x" Then
+        Target.Value = ""
+    Else
+        Target.Value = "x"
+    End If
+    
+    Application.EnableEvents = True
+    Set kontrol_alani = Nothing
+End Sub
+</code></pre></p>
+
+<div class="alert alert-dark"><strong>Kod (Açıklamalı)</strong></div>
+<p><pre><code class="language-vb">
+Option Explicit
+
+Private Sub Worksheet_BeforeDoubleClick(ByVal Target As Range, Cancel As Boolean)
+    
+    '--------------------------------------------------
+    'Çift tıklamayla işaret eklenecek veya işaretin
+    'kaldırılacağı alanı ya da alanları bir değişkene
+    'aktaracağız ve bunun üzerinden hareket edeceğiz.
+    'Bunun için değişken oluşturduk.
+    '--------------------------------------------------
+    Dim kontrol_alani As Range
+    
+    '--------------------------------------------------
+    'İlgili alanları virgülle ayırarak belirttik.
+    '--------------------------------------------------
+    Set kontrol_alani = Range("B1:B100,D1:D50,F10:F60")
+    
+    '--------------------------------------------------
+    'Eğer sayfadaki Target (yani bizim o anda üzerinde çalıştığımız alan)
+    'bizim kontrol_alani değişkeninde belirlediğimiz alanla ya da alan
+    'grubuyle kesişmiyorsa yordamdan çık.
+    '--------------------------------------------------
+    If Intersect(Target, kontrol_alani) Is Nothing Then Exit Sub
+        
+        '--------------------------------------------------
+        'Şu anda Worksheet_BeforeDoubleClick olayı (event)
+        'üzerinde çalışıyoruz. Bunun gibi başka bir olay
+        'ya da olaylar da bir şekilde tetiklenebilir.
+        'Örneğin çift tıklama yaptığımızda aslında ilk
+        'tıklamanın tek tıklama olması gibi.
+        '
+        'İşte bunun gibi olası tetiklenmelerin olmasını
+        'istemiyorsak veya istenmeyen sonuçların meydana
+        'gelmesini istemiyorsak diğer olayların olmasını
+        'engelleyebiliriz.
+        '
+        'Kabaca özetlemeye çalışırsak bu kod bu işe yarıyor.
+        '--------------------------------------------------
+        Application.EnableEvents = False
+        
+        '--------------------------------------------------
+        'BeforeDoubleClick olayının ikinci
+        'parametresi için işlem yaptık.
+        'Eğer Target alan ile hedeflenen
+        'alan kesişmiyorsa, bir çift tıklama
+        'işlemi olduğunda BeforeDoubleClick
+        'olayı ile gerçekleşecek işlemleri
+        'iptal etmeye yarıyor.
+        '--------------------------------------------------
+        Cancel = True
+        
+    '--------------------------------------------------
+    'Eğer Target ile hedeflenen alan kesişiyorsa
+    'işaretlemeyi yapabiliriz. Eğer işaret yoksa
+    'eklenecek, varsa da kaldırılacak.
+    '--------------------------------------------------
+    If Target.Value = "x" Then
+        Target.Value = ""
+    Else
+        Target.Value = "x"
+    End If
+    
+    '--------------------------------------------------
+    '(Varsa) diğer olayların yine çalışabilmesi
+    'için yukarıda False olarak değiştirdiğimiz
+    'EnableEvents durumunu True olarak geri
+    'değiştiriyoruz.
+    '--------------------------------------------------
+    Application.EnableEvents = True
+    
+    '--------------------------------------------------
+    'Değişkenle işimiz bittiğinden dolayı
+    'bunu artık sıfırlıyoruz ve RAM'de
+    'boşu boşuna yer kaplamamasını
+    'sağlıyoruz.
+    '--------------------------------------------------
+    Set kontrol_alani = Nothing
+End Sub
+</code></pre></p>
+
+<div class="alert alert-dark"><strong>Yararlanılan Kaynaklar</strong></div>
+<div class="list-group">
+    <a href="https://www.excel.web.tr/threads/application-enableevents-false-true-goerevi-nedir.100078" rel="nofollow noopener" target="_blank" class="list-group-item bg-light text-secondary">https://www.excel.web.tr/threads/application-enableevents-false-true-goerevi-nedir.100078</a>
+    <a href="https://stackoverflow.com/questions/8848253/exit-disable-edit-mode-after-double-click-handled-event" rel="nofollow noopener" target="_blank" class="list-group-item bg-light text-secondary">https://stackoverflow.com/questions/8848253/exit-disable-edit-mode-after-double-click-handled-event</a>
+</div>
+
+<div class="alert alert-dark"><strong>Etiketler</strong></div><span class='btn btn-light bg-gri'>microsoft excel</span> <span class='btn btn-light bg-gri'>açıklamalı içerik</span> <span class='btn btn-light bg-gri'>microsoft excel vba</span><hr>
+<!-- Icerik Metin Bitis -->
+<!-- ################################################## -->
+
+            </div>
+            <!-- Icerik Ana Sutun Bitis -->
+
+        </div>
+        <!-- Icerik Ana Satir Bitis -->
+
+    </div>
+    <!-- Kapsayici Icerik Alani Bitis -->
+
+    <!-- Responsive NavBar Baslangic -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand btn btn-secondary" href="../index.html">Pondesivon</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="../index.html">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../arsiv.html">Arşiv</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../sayfalar.html">Sayfalar</a></li>
+                    <li class="nav-item">
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninBasinaGit();">▲</span>
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninSonunaGit();">▼</span>
+                    </li>                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Responsive NavBar Bitis -->
+
+    <!-- Javascript Alani Alt Baslangic -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/prism.js"></script>
+    <script src="../js/script.js"></script>
+    <!-- Javascript Alani Alt Bitis -->
+</body>
+</html>

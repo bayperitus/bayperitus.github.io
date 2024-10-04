@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <!-- Meta Bolumu Baslangic -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Kişisel veri tabanı." />
+    <meta name="author" content="pondesivon" />
+    <!-- Meta Bolumu Bitis -->
+    
+    <!-- Title Alani Baslangic -->
+	<title>Metni İstenilen Renkte Yazdır - Microsoft Excel</title>
+	<!-- Title Alani Bitis -->
+
+    <!-- Favicon Baslangic -->
+    <link rel="icon" type="image/x-icon" href="../doc/favicon.ico" />
+    <!-- Favicon Bitis -->
+
+    <!-- CSS Alani Baslangic -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/prism.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <!-- CSS Alani Bitis -->
+</head>
+<body>
+    <!-- Responsive NavBar Baslangic -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand btn btn-secondary" href="../index.html">Pondesivon</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="../index.html">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../arsiv.html">Arşiv</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../notlar.html">Notlar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../sayfalar.html">Sayfalar</a></li>
+                    <li class="nav-item">
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninBasinaGit();">▲</span>
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninSonunaGit();">▼</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Responsive NavBar Bitis -->
+
+    <!-- Kapsayici Icerik Alani Baslangic -->
+    <div class="container min-vh-100 mb-2">
+
+        <!-- Icerik Ana Satir Baslangic -->
+        <div class="row">
+
+            <!-- Icerik Ana Sutun Baslangic -->
+            <div class="col">
+
+<!-- ################################################## -->
+<!-- Icerik Metin Baslangic -->
+<h1 class="mt-3">Metni İstenilen Renkte Yazdır - Microsoft Excel</h1><hr class="mt-1 mb-1"><p class="lead">Bazen yazdığımız bir formülün ya da formül grubunun siyahtan farklı bir renkte olmasını isteyebiliriz. Ben de bu durumda işe yarayabilecek bir KTF hazırladım.</p>
+<!-- bol -->
+<div class="alert alert-dark"><strong>Ekran Görüntüsü</strong></div>
+<a class="img-fluid d-block" href="yukleme/metni-istenilen-renkte-yazdir-microsoft-excel-1.gif"><img src="yukleme/metni-istenilen-renkte-yazdir-microsoft-excel-1.gif" alt="" /></a>
+<br>
+<div class="alert alert-dark"><strong>Kod</strong></div>
+<p><pre><code class="language-vb">
+Option Explicit
+
+Public Function RenkliMetin(metin As String, Optional renkIndeks As Double = 1) As String
+    Selection.Font.ColorIndex = renkIndeks
+    RenkliMetin = metin
+End Function
+</code></pre></p>
+
+<div class="alert alert-dark"><strong>Kod (Açıklamalı)</strong></div>
+<p><pre><code class="language-vb">
+Option Explicit
+
+'--------------------------------------------------
+'İki parametreli bir fonksiyon tanımladık.
+'İlk parametrede renklendireceğimiz metnin içeriği olacak.
+'İkinci parametrede de VBA renk indeksine göre renk seçeceğiz.
+'--------------------------------------------------
+Public Function RenkliMetin(metin As String, Optional renkIndeks As Double = 1) As String
+
+    '--------------------------------------------------
+    'Sonucu yazdırmadan önce renk değişim işlemini yapalım.
+    'Eğer bir hücreye formül girişi yapıyorsak zaten o
+    'hücreyi seçmişizdir. Bu yüzden seçili alanın rengini
+    'Selection metoduyla değiştiriyorum.
+    '--------------------------------------------------
+    Selection.Font.ColorIndex = renkIndeks
+    
+    '--------------------------------------------------
+    'Fonksiyon sonucunu yazdırdık.
+    '--------------------------------------------------
+    RenkliMetin = metin
+End Function
+</code></pre></p>
+
+<div class="alert alert-dark"><strong>Kullanım</strong></div>
+<p>VBA renk indekslerini kullandığımızdan 1 – 56 arasında bir sayı kullanarak renk seçimi yapabilirsiniz. Mesela yeşil renkte bir çıktı almak istediğimizi varsayalım.</p>
+<p><pre><code class="language-excel-formula">=RenkliMetin("Örnek cümledir.";10)</code></pre></p>
+
+<div class="alert alert-dark"><strong>Etiketler</strong></div><span class='btn btn-light bg-gri'>microsoft excel</span> <span class='btn btn-light bg-gri'>açıklamalı içerik</span> <span class='btn btn-light bg-gri'>microsoft excel vba</span><hr>
+<!-- Icerik Metin Bitis -->
+<!-- ################################################## -->
+
+            </div>
+            <!-- Icerik Ana Sutun Bitis -->
+
+        </div>
+        <!-- Icerik Ana Satir Bitis -->
+
+    </div>
+    <!-- Kapsayici Icerik Alani Bitis -->
+
+    <!-- Responsive NavBar Baslangic -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand btn btn-secondary" href="../index.html">Pondesivon</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="../index.html">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../arsiv.html">Arşiv</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../sayfalar.html">Sayfalar</a></li>
+                    <li class="nav-item">
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninBasinaGit();">▲</span>
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninSonunaGit();">▼</span>
+                    </li>                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Responsive NavBar Bitis -->
+
+    <!-- Javascript Alani Alt Baslangic -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/prism.js"></script>
+    <script src="../js/script.js"></script>
+    <!-- Javascript Alani Alt Bitis -->
+</body>
+</html>

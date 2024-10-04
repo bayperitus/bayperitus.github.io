@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <!-- Meta Bolumu Baslangic -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Kişisel veri tabanı." />
+    <meta name="author" content="pondesivon" />
+    <!-- Meta Bolumu Bitis -->
+    
+    <!-- Title Alani Baslangic -->
+	<title>Seçilen Alanda Formül İçeren Hücreleri Listele - Microsoft Excel</title>
+	<!-- Title Alani Bitis -->
+
+    <!-- Favicon Baslangic -->
+    <link rel="icon" type="image/x-icon" href="../doc/favicon.ico" />
+    <!-- Favicon Bitis -->
+
+    <!-- CSS Alani Baslangic -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/prism.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <!-- CSS Alani Bitis -->
+</head>
+<body>
+    <!-- Responsive NavBar Baslangic -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand btn btn-secondary" href="../index.html">Pondesivon</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="../index.html">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../arsiv.html">Arşiv</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../notlar.html">Notlar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../sayfalar.html">Sayfalar</a></li>
+                    <li class="nav-item">
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninBasinaGit();">▲</span>
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninSonunaGit();">▼</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Responsive NavBar Bitis -->
+
+    <!-- Kapsayici Icerik Alani Baslangic -->
+    <div class="container min-vh-100 mb-2">
+
+        <!-- Icerik Ana Satir Baslangic -->
+        <div class="row">
+
+            <!-- Icerik Ana Sutun Baslangic -->
+            <div class="col">
+
+<!-- ################################################## -->
+<!-- Icerik Metin Baslangic -->
+<h1 class="mt-3">Seçilen Alanda Formül İçeren Hücreleri Listele - Microsoft Excel</h1><hr class="mt-1 mb-1"><p class="lead">Seçilen alanda formül içeren hücrelerin listesini formülü içeren hücrenin adresleriyle birlikte listeleyen VBA kodu alternatifidir.</p>
+<!-- bol -->
+<div class="alert alert-dark"><strong>Kod</strong></div>
+<p><pre><code class="language-vb">
+Option Explicit
+
+Sub SecilenAlandakiFormulleriAdresleriyleBirlikteListele()
+    '--------------------------------------------------
+    'Değişkenler
+    '--------------------------------------------------
+    Dim secilenAlan As Range
+    Dim listeAlani  As Range
+    Dim hucre       As Range
+    Dim sayac       As Long
+    
+    '--------------------------------------------------
+    'Ayarlamalar
+    '--------------------------------------------------
+    sayac = 1
+    
+    Set secilenAlan = Selection.SpecialCells(xlFormulas)
+    Set listeAlani = Range("K1")
+    
+    listeAlani.CurrentRegion.ClearContents
+    listeAlani.Value = "Formülün Bulunduğu Hücrenin Adresi"
+    listeAlani.Offset(0, 1).Value = "Hücrenin İçerdiği Formül"
+    
+    '--------------------------------------------------
+    'Listeleme İşlemi
+    '--------------------------------------------------
+    For Each hucre In secilenAlan
+        listeAlani.Offset(sayac, 0).Value = hucre.Address
+        listeAlani.Offset(sayac, 1).Value = "'" & hucre.Formula
+        sayac = sayac + 1
+    Next
+    
+    '--------------------------------------------------
+    'Sütun Genişliğini Ayarlama İşlemi
+    '--------------------------------------------------
+    listeAlani.CurrentRegion.EntireColumn.AutoFit
+End Sub
+</code></pre></p>
+
+<div class="alert alert-dark"><strong>Kod (Açıklamalı)</strong></div>
+<p><pre><code class="language-vb">
+Option Explicit
+
+Sub SecilenAlandakiFormulleriAdresleriyleBirlikteListele()
+    
+    '--------------------------------------------------
+    'İçindeki formülleri listelemek için seçeceğimiz
+    'alanı atayacağımız değişken.
+    '--------------------------------------------------
+    Dim secilenAlan As Range
+    
+    '--------------------------------------------------
+    'Hücre adreslerini ve formüllerini listelemek
+    'için kullanılacak alanın başlangıç noktasını
+    'atadığımız değişken.
+    '--------------------------------------------------
+    Dim listeAlani  As Range
+    
+    '--------------------------------------------------
+    'Döngü için kullanılacak. Seçilen alandaki
+    'her hücre için işlem yapacağız. Bu alandaki
+    'her hücreyi "hucre" isimli değişkene
+    'atayarak işlem yapacağız.
+    '--------------------------------------------------
+    Dim hucre       As Range
+    
+    '--------------------------------------------------
+    'Listeleme işlemi için kullanılacak artırma sayacı.
+    '--------------------------------------------------
+    Dim sayac       As Long
+    
+    '--------------------------------------------------
+    'Listeleme işlemi için kullanacağımız sayac
+    'değişkenine başlangıç değeri atadık.
+    '--------------------------------------------------
+    sayac = 1
+    
+    '--------------------------------------------------
+    'Seçilen alan için işlem yapmak istiyoruz.
+    'Burada da formül içeren hücrelerle işlem
+    'yapacağımızı belirtiyoruz.
+    '--------------------------------------------------
+    Set secilenAlan = Selection.SpecialCells(xlFormulas)
+    
+    '--------------------------------------------------
+    'Hücre adreslerinin ve formüllerin listeleneceği
+    'alan için bir referans noktası verdik. Listeleme
+    'işlemi bu koda göre K1 hücresinden başlayacak
+    'şekilde yapılacak.
+    '--------------------------------------------------
+    Set listeAlani = Range("K1")
+    
+    '--------------------------------------------------
+    'Yeni listeleme işlemine başlamadan önce liste
+    'alanını temizliyoruz.
+    '--------------------------------------------------
+    listeAlani.CurrentRegion.ClearContents
+    
+    '--------------------------------------------------
+    'Liste alanında ilk satıra başlıkları yazdırıyoruz.
+    'Referans noktası K1 hücresiydi. Buna göre
+    'K sütununa hücre adreslerini yazdıracağız.
+    'Bir sağına da hücredeki formülü yazdıracağız.
+    'Offset metodunu bu amaçla kullandık.
+    '--------------------------------------------------
+    listeAlani.Value = "Formülün Bulunduğu Hücrenin Adresi"
+    listeAlani.Offset(0, 1).Value = "Hücrenin İçerdiği Formül"
+    
+    '--------------------------------------------------
+    'Seçilen alan için hücre içeren formülleri
+    've adreslerini listeleyen döngüyü çalıştır.
+    '--------------------------------------------------
+    For Each hucre In secilenAlan
+        
+        '--------------------------------------------------
+        'Hücrenin adresini yazdır.
+        '--------------------------------------------------
+        listeAlani.Offset(sayac, 0).Value = hucre.Address
+        
+        '--------------------------------------------------
+        'Hücrenin formülünü yazdır.
+        '--------------------------------------------------
+        listeAlani.Offset(sayac, 1).Value = "'" & hucre.Formula
+        
+        '--------------------------------------------------
+        'Sayacı artırıyoruz. Böylelikle mevcut satırın
+        'üzerine yazmak yerine yeni boş satıra veri
+        'yazdırıyoruz.
+        '--------------------------------------------------
+        sayac = sayac + 1
+    Next
+    
+    '--------------------------------------------------
+    'Sütun genişliğini hücrelerdeki içeriği
+    'komple gösterecek şekilde yeniden ayarla.
+    '--------------------------------------------------
+    listeAlani.CurrentRegion.EntireColumn.AutoFit
+End Sub
+</code></pre></p>
+
+<div class="alert alert-dark"><strong>Etiketler</strong></div><span class='btn btn-light bg-gri'>microsoft excel</span> <span class='btn btn-light bg-gri'>açıklamalı içerik</span> <span class='btn btn-light bg-gri'>microsoft excel vba</span><hr>
+<!-- Icerik Metin Bitis -->
+<!-- ################################################## -->
+
+            </div>
+            <!-- Icerik Ana Sutun Bitis -->
+
+        </div>
+        <!-- Icerik Ana Satir Bitis -->
+
+    </div>
+    <!-- Kapsayici Icerik Alani Bitis -->
+
+    <!-- Responsive NavBar Baslangic -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand btn btn-secondary" href="../index.html">Pondesivon</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="../index.html">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../arsiv.html">Arşiv</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../sayfalar.html">Sayfalar</a></li>
+                    <li class="nav-item">
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninBasinaGit();">▲</span>
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninSonunaGit();">▼</span>
+                    </li>                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Responsive NavBar Bitis -->
+
+    <!-- Javascript Alani Alt Baslangic -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/prism.js"></script>
+    <script src="../js/script.js"></script>
+    <!-- Javascript Alani Alt Bitis -->
+</body>
+</html>

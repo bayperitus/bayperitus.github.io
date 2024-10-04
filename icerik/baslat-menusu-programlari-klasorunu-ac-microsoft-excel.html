@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <!-- Meta Bolumu Baslangic -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Kişisel veri tabanı." />
+    <meta name="author" content="pondesivon" />
+    <!-- Meta Bolumu Bitis -->
+    
+    <!-- Title Alani Baslangic -->
+	<title>Başlat Menüsü Programları Klasörünü Aç - Microsoft Excel</title>
+	<!-- Title Alani Bitis -->
+
+    <!-- Favicon Baslangic -->
+    <link rel="icon" type="image/x-icon" href="../doc/favicon.ico" />
+    <!-- Favicon Bitis -->
+
+    <!-- CSS Alani Baslangic -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/prism.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <!-- CSS Alani Bitis -->
+</head>
+<body>
+    <!-- Responsive NavBar Baslangic -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand btn btn-secondary" href="../index.html">Pondesivon</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="../index.html">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../arsiv.html">Arşiv</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../notlar.html">Notlar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../sayfalar.html">Sayfalar</a></li>
+                    <li class="nav-item">
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninBasinaGit();">▲</span>
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninSonunaGit();">▼</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Responsive NavBar Bitis -->
+
+    <!-- Kapsayici Icerik Alani Baslangic -->
+    <div class="container min-vh-100 mb-2">
+
+        <!-- Icerik Ana Satir Baslangic -->
+        <div class="row">
+
+            <!-- Icerik Ana Sutun Baslangic -->
+            <div class="col">
+
+<!-- ################################################## -->
+<!-- Icerik Metin Baslangic -->
+<h1 class="mt-3">Başlat Menüsü Programları Klasörünü Aç - Microsoft Excel</h1><hr class="mt-1 mb-1"><p class="lead">Başlat menüsündeki kısayolları barındıran Programs klasörünü açmaya yarayan alternatif bir koddur.</p>
+<!-- bol -->
+<div class="alert alert-dark"><strong>Kod</strong></div>
+<p><pre><code class="language-vb">
+Option Explicit
+
+Sub AllUsersKlasorunuAc()
+    Dim ws As Object
+    Set ws = CreateObject("WScript.Shell")
+    
+    MsgBox "All Users Klasörü Yolu " & vbCrLf & _
+    ws.SpecialFolders("AllUsersPrograms")
+    
+    ws.Run Chr(34) & ws.SpecialFolders("AllUsersPrograms") & Chr(34), 1, False
+        
+    Set ws = Nothing
+End Sub
+</code></pre></p>
+
+<div class="alert alert-dark"><strong>Kod (Açıklamalı)</strong></div>
+<p><pre><code class="language-vb">
+Option Explicit
+
+Sub AllUsersKlasorunuAc()
+
+    '--------------------------------------------------
+    'Object tipinde bir nesne tanımladık.
+    '--------------------------------------------------
+    Dim ws As Object
+    
+    '--------------------------------------------------
+    'Değişkenimize WScript.Shell ayarını çektik.
+    '--------------------------------------------------
+    Set ws = CreateObject("WScript.Shell")
+    
+    '--------------------------------------------------
+    'Burada mesaj yoluyla klasörün tam yolunu
+    'öğrenebiliyoruz. SpecialFolders() bize
+    'bunu öğrenme imkanı veriyor.
+    '--------------------------------------------------
+    MsgBox "All Users Klasörü Yolu " & vbCrLf & _
+    ws.SpecialFolders("AllUsersPrograms")
+    
+    '--------------------------------------------------
+    'Burada da WScript.Shell aracılığıyla
+    'klasörü açıyoruz. Run metodu aslında
+    'komut çalıştırmaya yarıyor, biz burada
+    'klasör açacak şekilde uyarlama yaptık.
+    '
+    'ws.Run (strCommand, [intWindowStyle], [bWaitOnReturn])
+    '
+    'Görüldüğü gibi üç parametreden oluşuyor.
+    'İlk parametreye klasör yolunu girdik.
+    '
+    'İkinci parametrede pencerenin durumunu belirledik.
+    'Int değer alan bir parametre bu.
+    'Normalde 0'dan 10'a kadar seçenekler var ve 1.
+    'seçenek klasörü açıyor, aktif hale getiriyor
+    'ama pencere ebatlarına dokunmuyor.
+    '
+    'Üçüncü parametrede de uygulamamızın asenkron olarak
+    'çalışıp çalışmaması hususunda karar vermemizi sağlıyor.
+    'Varsayılan olarak (tanımlanmazsa) FALSE.
+    '
+    'Eğer TRUE olarak ayarlanırsa eğer önceden başlatılmış
+    'uygulamayı kullanıcı durdurana kadar bizim Run
+    'komutunu çalışmayı durduruyor ve kullanıcıya
+    'ilgili hata mesajını döndürüyor.
+    '
+    'Eğer FALSE değere sahip ise önceden çalışan prosese
+    'filan bakmadan çalışmaya devam ediyor. Hata mesajı
+    'olarak da 0 kodlu hatayı döndürüyor.
+    '--------------------------------------------------
+    ws.Run Chr(34) & ws.SpecialFolders("AllUsersPrograms") & Chr(34), 1, False
+    
+    '--------------------------------------------------
+    'İşimiz bittikten sonra nesne
+    'örneğimizi RAM'den temizledik.
+    '--------------------------------------------------
+    Set ws = Nothing
+End Sub
+</code></pre></p>
+
+<div class="alert alert-dark"><strong>Yararlanılan Kaynaklar</strong></div>
+<div class="list-group">
+    <a href="https://ss64.com/vb/run.html" rel="nofollow noopener" target="_blank" class="list-group-item bg-light text-secondary">https://ss64.com/vb/run.html</a>
+    <a href="http://www.informit.com/articles/article.aspx?p=1187429&seqNum=5" rel="nofollow noopener" target="_blank" class="list-group-item bg-light text-secondary">http://www.informit.com/articles/article.aspx?p=1187429&seqNum=5</a>
+    <a href="https://www.codeproject.com/Tips/507798/Differences-between-Run-and-Exec-VBScript" rel="nofollow noopener" target="_blank" class="list-group-item bg-light text-secondary">https://www.codeproject.com/Tips/507798/Differences-between-Run-and-Exec-VBScript</a>
+    <a href="https://www.mrexcel.com/forum/excel-questions/767553-createobject-wscript-shell-run-not-working.html" rel="nofollow noopener" target="_blank" class="list-group-item bg-light text-secondary">https://www.mrexcel.com/forum/excel-questions/767553-createobject-wscript-shell-run-not-working.html</a>
+    <a href="https://stackoverflow.com/questions/46412607/running-a-c-sharp-exe-with-arguments-via-wscript-shell-vba" rel="nofollow noopener" target="_blank" class="list-group-item bg-light text-secondary">https://stackoverflow.com/questions/46412607/running-a-c-sharp-exe-with-arguments-via-wscript-shell-vba</a>
+    <a href="https://www.rondebruin.nl/win/s3/win027.htm" rel="nofollow noopener" target="_blank" class="list-group-item bg-light text-secondary">https://www.rondebruin.nl/win/s3/win027.htm</a>
+</div>
+
+<div class="alert alert-dark"><strong>Etiketler</strong></div><span class='btn btn-light bg-gri'>microsoft excel</span> <span class='btn btn-light bg-gri'>açıklamalı içerik</span> <span class='btn btn-light bg-gri'>microsoft excel vba</span><hr>
+<!-- Icerik Metin Bitis -->
+<!-- ################################################## -->
+
+            </div>
+            <!-- Icerik Ana Sutun Bitis -->
+
+        </div>
+        <!-- Icerik Ana Satir Bitis -->
+
+    </div>
+    <!-- Kapsayici Icerik Alani Bitis -->
+
+    <!-- Responsive NavBar Baslangic -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand btn btn-secondary" href="../index.html">Pondesivon</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="../index.html">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../arsiv.html">Arşiv</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../sayfalar.html">Sayfalar</a></li>
+                    <li class="nav-item">
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninBasinaGit();">▲</span>
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninSonunaGit();">▼</span>
+                    </li>                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Responsive NavBar Bitis -->
+
+    <!-- Javascript Alani Alt Baslangic -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/prism.js"></script>
+    <script src="../js/script.js"></script>
+    <!-- Javascript Alani Alt Bitis -->
+</body>
+</html>

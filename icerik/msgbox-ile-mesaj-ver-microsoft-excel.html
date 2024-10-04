@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <!-- Meta Bolumu Baslangic -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Kişisel veri tabanı." />
+    <meta name="author" content="pondesivon" />
+    <!-- Meta Bolumu Bitis -->
+    
+    <!-- Title Alani Baslangic -->
+	<title>MsgBox İle Mesaj Ver - Microsoft Excel</title>
+	<!-- Title Alani Bitis -->
+
+    <!-- Favicon Baslangic -->
+    <link rel="icon" type="image/x-icon" href="../doc/favicon.ico" />
+    <!-- Favicon Bitis -->
+
+    <!-- CSS Alani Baslangic -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/prism.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <!-- CSS Alani Bitis -->
+</head>
+<body>
+    <!-- Responsive NavBar Baslangic -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand btn btn-secondary" href="../index.html">Pondesivon</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="../index.html">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../arsiv.html">Arşiv</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../notlar.html">Notlar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../sayfalar.html">Sayfalar</a></li>
+                    <li class="nav-item">
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninBasinaGit();">▲</span>
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninSonunaGit();">▼</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Responsive NavBar Bitis -->
+
+    <!-- Kapsayici Icerik Alani Baslangic -->
+    <div class="container min-vh-100 mb-2">
+
+        <!-- Icerik Ana Satir Baslangic -->
+        <div class="row">
+
+            <!-- Icerik Ana Sutun Baslangic -->
+            <div class="col">
+
+<!-- ################################################## -->
+<!-- Icerik Metin Baslangic -->
+<h1 class="mt-3">MsgBox İle Mesaj Ver - Microsoft Excel</h1><hr class="mt-1 mb-1"><p class="lead">Microsoft Excel VBA ile daha etkili ve fonksiyonel mesaj kutuları oluşturmak için yapılabileceklere göz atalım.</p>
+<!-- bol -->
+<div class="alert alert-dark"><strong>Bilgi</strong></div>
+
+<p class="text-danger"><strong>Düz Mesaj</strong></p>
+<p><pre><code class="language-vb">
+'Mesaj Örneği
+MsgBox "Mesaj"
+</code></pre></p>
+
+<hr class="bolum">
+
+<p class="text-danger"><strong>Başlığı Olan Mesaj</strong></p>
+<p><pre><code class="language-vb">
+'Başlığı Olan Bir Mesaj Örneği
+MsgBox "Bu bir mesaj içeriğidir.", , "Değişik Başlık"
+</code></pre></p>
+
+<hr class="bolum">
+
+<p class="text-danger"><strong>Mesajları Detaylandır</strong></p>
+<p>Mesaj butonlarını kullanarak kullanıcıya daha ayrıntılı ve belli cevapları alabileceğimiz mesajlar oluşturabiliriz. Bu arada birkaç tanesini atlamış olabilirim. Ehe.</p>
+
+<p><pre><code class="language-vb">
+Option Explicit
+
+MsgBox "Bu bir mesaj içeriğidir.", vbYesNoCancel, "Değişik Başlık"
+
+'Özel Mesajlar
+
+'-------------------------------------------
+'vbAbortRetryIgnore
+'Butonlar | Durdur - Yeniden Dene - Yoksay
+'-------------------------------------------
+
+'-------------------------------------------
+'vbApplicationModal
+'Butonlar | Tamam
+'-------------------------------------------
+
+'-------------------------------------------
+'vbCritical
+'Butonlar | Tamam
+'Mesajın yanında hata ikonu gösteriyor
+'ve windows hata sesi çıkarıyor.
+'-------------------------------------------
+
+'-------------------------------------------
+'vbExclamation
+'Butonlar | Tamam
+'Mesajın yanında ünlem ikonu gösteriyor
+'ve windows uyarı sesi çıkarıyor.
+'-------------------------------------------
+
+'-------------------------------------------
+'vbInformation
+'Butonlar | Tamam
+'Mesajın yanında bilgi ikonu gösteriyor
+'ve windows uyarı sesi çıkarıyor.
+'-------------------------------------------
+
+'-------------------------------------------
+'vbMsgBoxHelpButton
+'Butonlar | Tamam - Yardım
+'-------------------------------------------
+
+'-------------------------------------------
+'vbMsgBoxRight
+'Butonlar | Tamam
+'Mesaj başlığını ve içeriğini sağa hizalıyor.
+'-------------------------------------------
+
+'-------------------------------------------
+'vbMsgBoxRtlReading
+'Butonlar | Tamam
+'Mesaj penceresi düzenini sağdan sola
+'olacak şekilde hizalıyor. Arapça vs.
+'için işe yarayabilir.
+'-------------------------------------------
+
+'-------------------------------------------
+'vbOKCancel
+'Butonlar | Tamam - İptal
+'-------------------------------------------
+
+'-------------------------------------------
+'vbOKOnly
+'Butonlar | Tamam
+'-------------------------------------------
+
+'-------------------------------------------
+'vbQuestion
+'Butonlar | Tamam
+'Mesajın yanında soru ikonu gösteriyor.
+'-------------------------------------------
+
+'-------------------------------------------
+'vbRetryCancel
+'Butonlar | Yeniden Dene - İptal
+'-------------------------------------------
+
+'-------------------------------------------
+'vbSystemModal
+'Butonlar | Tamam
+'Mesaj penceresinin sol üst köşesinde simge görünüyor.
+'-------------------------------------------
+
+'-------------------------------------------
+'vbYesNo
+'Butonlar | Evet - Hayır
+'-------------------------------------------
+
+'-------------------------------------------
+'vbYesNoCancel
+'Butonlar | Evet - Hayır - İptal
+'-------------------------------------------
+
+</code></pre></p>
+
+<hr class="bolum">
+
+<p class="text-danger"><strong>Daha Fazla Detay Ver</strong></p>
+<p>Örneğin Evet – Hayır şeklinde iki cevabın verilebileceği bir soru sormak istiyoruz. Mesaj penceresinde de hem içeriğin yanında soru ikonu görünsün hem de iki cevap şıkkını sunsun. Koda bakalım.</p>
+
+<p><pre><code class="language-vb">
+MsgBox "Bu bir soru mudur?", vbYesNoCancel + vbQuestion, "Birini seçin:"
+</code></pre></p>
+
+<div class="alert alert-dark"><strong>Yararlanılan Kaynaklar</strong></div>
+<div class="list-group">
+    <a href="http://www.java2s.com/Code/VBA-Excel-Access-Word/Language-Basics/CheckMsgBoxresult.htm" rel="nofollow noopener" target="_blank" class="list-group-item bg-light text-secondary">http://www.java2s.com/Code/VBA-Excel-Access-Word/Language-Basics/CheckMsgBoxresult.htm</a>
+</div>
+
+<div class="alert alert-dark"><strong>Etiketler</strong></div><span class='btn btn-light bg-gri'>microsoft excel</span> <span class='btn btn-light bg-gri'>microsoft excel vba</span><hr>
+<!-- Icerik Metin Bitis -->
+<!-- ################################################## -->
+
+            </div>
+            <!-- Icerik Ana Sutun Bitis -->
+
+        </div>
+        <!-- Icerik Ana Satir Bitis -->
+
+    </div>
+    <!-- Kapsayici Icerik Alani Bitis -->
+
+    <!-- Responsive NavBar Baslangic -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand btn btn-secondary" href="../index.html">Pondesivon</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="../index.html">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../arsiv.html">Arşiv</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../sayfalar.html">Sayfalar</a></li>
+                    <li class="nav-item">
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninBasinaGit();">▲</span>
+                        <span class="btn btn-secondary mr-2" onclick="sayfaninSonunaGit();">▼</span>
+                    </li>                
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Responsive NavBar Bitis -->
+
+    <!-- Javascript Alani Alt Baslangic -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/prism.js"></script>
+    <script src="../js/script.js"></script>
+    <!-- Javascript Alani Alt Bitis -->
+</body>
+</html>
